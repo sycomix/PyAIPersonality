@@ -41,24 +41,23 @@ class AIPersonality:
         """
         if personality_package_path is None:
             return
-        else:
-            self.personality_package_path = Path(personality_package_path)
+        self.personality_package_path = Path(personality_package_path)
 
-            # Validate that the path exists
-            if not self.personality_package_path.exists():
-                raise ValueError("The provided path does not exist.")
+        # Validate that the path exists
+        if not self.personality_package_path.exists():
+            raise ValueError("The provided path does not exist.")
 
-            # Validate that the path format is OK with at least a config.yaml file present in the folder
-            if not self.personality_package_path.is_dir():
-                raise ValueError("The provided path is not a folder.")
+        # Validate that the path format is OK with at least a config.yaml file present in the folder
+        if not self.personality_package_path.is_dir():
+            raise ValueError("The provided path is not a folder.")
 
-            # Verify that there is at least a configuration file
-            config_file = self.personality_package_path / "config.yaml"
-            if not config_file.is_file():
-                raise ValueError("The provided folder does not contain a config.yaml file.")
+        # Verify that there is at least a configuration file
+        config_file = self.personality_package_path / "config.yaml"
+        if not config_file.is_file():
+            raise ValueError("The provided folder does not contain a config.yaml file.")
 
-            # Open and store the personality
-            self.load_personality(config_file)
+        # Open and store the personality
+        self.load_personality(config_file)
 
 
     def load_personality(self, file_path):
@@ -118,10 +117,7 @@ class AIPersonality:
         Returns:
         PIL.Image.Image: The personality logo as a Pillow Image object.
         """
-        if hasattr(self, '_logo'):
-            return self._logo
-        else:
-            return None
+        return self._logo if hasattr(self, '_logo') else None
 
     def __str__(self):
         """
@@ -138,7 +134,7 @@ class AIPersonality:
         if logo_path.is_file():
             attributes.append(f"logo: {logo_path}")
         else:
-            attributes.append(f"logo: This personality has no logo")
+            attributes.append("logo: This personality has no logo")
         # Format the attributes as a string
         attrs = ',\n  '.join(attributes)
         return f"AIPersonality:\n  {attrs}"
